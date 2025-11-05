@@ -58,6 +58,12 @@ export default async function PostsPage() {
               src={post.thumbnail} 
               alt={`${post.title} 缩略图`} 
               className="thumbnail"
+              onError={(e) => {
+                // 如果图片加载失败，显示默认图片
+                if (e.target.src !== window.location.origin + '/images/default-thumbnail.jpg') {
+                  e.target.src = '/images/default-thumbnail.jpg';
+                }
+              }}
             />
           </li>
         ))}

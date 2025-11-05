@@ -53,19 +53,23 @@ export default function PostItemClient({ post }) {
       </div>
       {imgSrc && (
         <img 
-          src={imgSrc}
+          src={imgError ? '/images/default-thumbnail.jpg' : imgSrc}
           alt={`${post.title} 缩略图`} 
           className="thumbnail"
           style={{
             opacity: imgLoaded ? 1 : 0.5,
             transition: 'opacity 0.3s ease-in-out',
-            display: imgError ? 'none' : 'block',
             width: '100px',
             height: '100px',
             objectFit: 'cover'
           }}
           onLoad={() => setImgLoaded(true)}
-          onError={() => setImgError(true)}
+          onError={() => {
+            // 如果已经是默认图片还出错，就隐藏它
+            if (imgSrc !== '/images/default-thumbnail.jpg') {
+              setImgError(true);
+            }
+          }}
           loading="lazy"
           decoding="async"
         />
