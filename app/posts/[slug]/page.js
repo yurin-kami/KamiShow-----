@@ -1,6 +1,8 @@
+import { Suspense } from 'react';
 import { getPostBySlug, convertMarkdownToHtml, extractHeaders } from '../../../lib/posts';
 
-export default async function Post({ params }) {
+// 服务端组件获取文章数据
+async function PostContent({ params }) {
   // 等待params Promise解析
   const resolvedParams = await params;
   const post = getPostBySlug(resolvedParams.slug, [
@@ -11,45 +13,17 @@ export default async function Post({ params }) {
     'excerpt',
     'tags',
   ]);
-  
+
+  // 转换Markdown内容
   const content = await convertMarkdownToHtml(post.content || '');
   const headers = extractHeaders(post.content || '');
 
-  return (
-    <div style={{ position: 'relative' }}>
-      <article className="article-content">
-        <h1>{post.title}</h1>
-        <p>发布日期: {post.date}</p>
-        {post.tags && (
-          <div>
-            标签: 
-            {post.tags.map((tag) => (
-              <span key={tag}>
-                <a href={`/tags/${tag}`}>{tag}</a> 
-              </span>
-            ))}
-          </div>
-        )}
-        <div dangerouslySetInnerHTML={{ __html: content }} />
-      </article>
-      
-      {/* 大纲 */}
-      {headers.length > 0 && (
-        <div className="toc">
-          <h3>目录</h3>
-          <ul>
-            {headers.map((header, index) => (
-              <li key={index} className={`toc-h${header.level}`}>
-                <a href={`#${header.id}`}>{header.text}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
-  );
+  // 客户端组件渲染文章内容
+  const PostClient = (await import('./PostClient')).default;
+  return <PostClient post={{...post, content, headers}} />;
 }
 
+// 服务端组件获取元数据
 export async function generateMetadata({ params }) {
   // 等待params Promise解析
   const resolvedParams = await params;
@@ -59,4 +33,26 @@ export async function generateMetadata({ params }) {
     title: `${post.title} - KAMISHOW!!!!!`,
     description: post.excerpt || post.title,
   };
+}
+
+// 骨架屏组件
+function PostSkeleton() {
+  return (
+    <div style={{ position: 'relative', padding: '2rem' }}>
+      <div style={{ height: '2rem', backgroundColor: '#eee', marginBottom: '1rem', width: '60%' }}></div>
+      <div style={{ height: '1.2rem', backgroundColor: '#eee', marginBottom: '0.5rem', width: '30%' }}></div>
+      <div style={{ height: '1rem', backgroundColor: '#eee', marginBottom: '1rem', width: '70%' }}></div>
+      <div style={{ height: '1rem', backgroundColor: '#eee', marginBottom: '0.5rem', width: '100%' }}></div>
+      <div style={{ height: '1rem', backgroundColor: '#eee', marginBottom: '0.5rem', width: '90%' }}></div>
+      <div style={{ height: '1rem', backgroundColor: '#eee', marginBottom: '0.5rem', width: '95%' }}></div>
+    </div>
+  );
+}
+
+export default function Post({ params }) {
+  return (
+    <Suspense fallback={<PostSkeleton />}>
+      <PostContent params={params} />
+    </Suspense>
+  );
 }

@@ -7,6 +7,6 @@ excerpt: "测试远程图片加载"
 
 这是一个测试远程图片加载的文章。
 
-![远程图片测试](https://httpbin.org/image/png)
+![远程图片测试](https://www.17golang.com/uploads/20250620/17503868216854c885d39ba.jpg)
 
 这张图片应该通过我们的代理正确加载。

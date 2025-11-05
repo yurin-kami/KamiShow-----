@@ -1,7 +1,10 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
 import { getAllPosts } from '../lib/posts';
 
-export default async function Home() {
+// 首页内容组件
+async function HomeContent() {
+  // 获取所有文章数据
   const posts = getAllPosts(['title', 'date', 'slug', 'excerpt', 'tags', 'content']);
 
   // 从文章内容中提取第一张图片作为缩略图
@@ -31,6 +34,13 @@ export default async function Home() {
     };
   });
 
+  // 懒加载的PostItem组件
+  async function PostItem({ post }) {
+    // 使用React.lazy实现组件懒加载
+    const PostItemClient = (await import('../components/PostItemClient')).default;
+    return <PostItemClient post={post} />;
+  }
+
   return (
     <div>
       <h1>欢迎来到KAMISHOW!!!!!</h1>
@@ -39,32 +49,33 @@ export default async function Home() {
       <h2>最新文章</h2>
       <ul>
         {postsWithThumbnails.map((post) => (
-          <li key={post.slug}>
-            <div className="content">
-              <Link href={`/posts/${post.slug}`}>
-                <h3>{post.title}</h3>
-              </Link>
-              <p>日期: {post.date}</p>
-              {post.excerpt && <p>{post.excerpt}</p>}
-              {post.tags && (
-                <div>
-                  标签: 
-                  {post.tags.map((tag) => (
-                    <span key={tag}>
-                      <Link href={`/tags/${tag}`}>{tag}</Link> 
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-            <img 
-              src={post.thumbnail} 
-              alt={`${post.title} 缩略图`} 
-              className="thumbnail"
-            />
-          </li>
+          <Suspense key={post.slug} fallback={<PostItemSkeleton />}>
+            <PostItem post={post} />
+          </Suspense>
         ))}
       </ul>
     </div>
+  );
+}
+
+// 骨架屏组件
+function PostItemSkeleton() {
+  return (
+    <li>
+      <div className="content">
+        <div style={{ height: '1.5rem', backgroundColor: '#eee', marginBottom: '0.5rem', width: '70%' }}></div>
+        <div style={{ height: '1rem', backgroundColor: '#eee', marginBottom: '0.5rem', width: '40%' }}></div>
+        <div style={{ height: '1rem', backgroundColor: '#eee', marginBottom: '0.5rem', width: '90%' }}></div>
+      </div>
+      <div style={{ width: '100px', height: '100px', backgroundColor: '#eee', marginLeft: '1rem' }}></div>
+    </li>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div>加载中...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }
