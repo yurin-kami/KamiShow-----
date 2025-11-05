@@ -57,6 +57,12 @@
       "namedRegex": "^/_not\\-found(?:/)?$"
     },
     {
+      "page": "/api/image-proxy",
+      "regex": "^/api/image\\-proxy(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/image\\-proxy(?:/)?$"
+    },
+    {
       "page": "/posts",
       "regex": "^/posts(?:/)?$",
       "routeKeys": {},

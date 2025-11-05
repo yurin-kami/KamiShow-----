@@ -1,3 +1,0 @@
-module.exports=[19325,a=>{a.n(a.i(62925))},43619,a=>{a.n(a.i(79962))},13718,a=>{a.n(a.i(85523))},18198,a=>{a.n(a.i(45518))},62212,a=>{a.n(a.i(66114))},26463,a=>{"use strict";var b=a.i(7997),c=a.i(95936),d=a.i(73285);async function e(){let a=(0,d.getAllTags)();return(0,b.jsxs)("div",{children:[(0,b.jsx)("h1",{children:"标签"}),(0,b.jsx)("ul",{children:a.map(a=>(0,b.jsx)("li",{children:(0,b.jsx)(c.default,{href:`/tags/${a}`,children:a})},a))})]})}a.s(["default",()=>e])}];
-
-//# sourceMappingURL=_44bbfc31._.js.map

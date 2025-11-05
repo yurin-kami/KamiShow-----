@@ -1,6 +1,7 @@
 {
   "/_global-error/page": "/_global-error",
   "/_not-found/page": "/_not-found",
+  "/api/image-proxy/route": "/api/image-proxy",
   "/page": "/",
   "/posts/[slug]/page": "/posts/[slug]",
   "/posts/page": "/posts",

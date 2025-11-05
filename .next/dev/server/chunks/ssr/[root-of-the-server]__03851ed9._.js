@@ -78,6 +78,8 @@ module.exports = mod;
 __turbopack_context__.s([
     "convertMarkdownToHtml",
     ()=>convertMarkdownToHtml,
+    "extractHeaders",
+    ()=>extractHeaders,
     "getAllPosts",
     ()=>getAllPosts,
     "getAllTags",
@@ -166,12 +168,71 @@ function getAllTags() {
     });
     return Array.from(tags);
 }
+function extractHeaders(markdown) {
+    const headers = [];
+    const lines = markdown.split('\n');
+    lines.forEach((line)=>{
+        const h1Match = line.match(/^# (.+)/);
+        const h2Match = line.match(/^## (.+)/);
+        const h3Match = line.match(/^### (.+)/);
+        if (h1Match) {
+            headers.push({
+                level: 1,
+                text: h1Match[1],
+                id: h1Match[1].toLowerCase().replace(/\s+/g, '-').replace(/[\w\-]+/g, '')
+            });
+        } else if (h2Match) {
+            headers.push({
+                level: 2,
+                text: h2Match[1],
+                id: h2Match[1].toLowerCase().replace(/\s+/g, '-').replace(/[\w\-]+/g, '')
+            });
+        } else if (h3Match) {
+            headers.push({
+                level: 3,
+                text: h3Match[1],
+                id: h3Match[1].toLowerCase().replace(/\s+/g, '-').replace(/[\w\-]+/g, '')
+            });
+        }
+    });
+    return headers;
+}
 async function convertMarkdownToHtml(markdown) {
     const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$unified$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["unified"])().use(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$remark$2d$parse$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"]).use(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$remark$2d$rehype$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"]).use(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$rehype$2d$stringify$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"]).process(markdown);
     // 获取HTML内容
     let html = result.toString();
-    // 为图片添加样式，限制最大宽度和高度
-    html = html.replace(/<img([^>]*?)src="([^"]*?)"([^>]*?)alt="([^"]*?)"([^>]*?)>/g, '<img$1src="$2"$3alt="$4"$5 style="max-width: 100%; height: auto; display: block; margin: 1rem auto;">');
+    // 为标题添加id属性，用于大纲导航
+    html = html.replace(/<h1>(.*?)<\/h1>/g, (match, content)=>{
+        const id = content.toLowerCase().replace(/\s+/g, '-').replace(/[\w\-]+/g, '');
+        return `<h1 id="${id}">${content}</h1>`;
+    });
+    html = html.replace(/<h2>(.*?)<\/h2>/g, (match, content)=>{
+        const id = content.toLowerCase().replace(/\s+/g, '-').replace(/[\w\-]+/g, '');
+        return `<h2 id="${id}">${content}</h2>`;
+    });
+    html = html.replace(/<h3>(.*?)<\/h3>/g, (match, content)=>{
+        const id = content.toLowerCase().replace(/\s+/g, '-').replace(/[\w\-]+/g, '');
+        return `<h3 id="${id}">${content}</h3>`;
+    });
+    // 为图片添加样式，限制最大宽度和高度，并处理远程图片
+    html = html.replace(/<img([^>]*?)src="([^"]*?)"([^>]*?)alt="([^"]*?)"([^>]*?)>/g, (match, prefix, src, middle, alt, suffix)=>{
+        // 如果是远程图片，使用Next.js Image组件
+        if (src.startsWith('http://') || src.startsWith('https://')) {
+            // 移除现有的width和height属性，因为我们会设置自己的样式
+            let cleanPrefix = prefix.replace(/width="[^"]*"/g, '').replace(/height="[^"]*"/g, '');
+            let cleanMiddle = middle.replace(/width="[^"]*"/g, '').replace(/height="[^"]*"/g, '');
+            let cleanSuffix = suffix.replace(/width="[^"]*"/g, '').replace(/height="[^"]*"/g, '');
+            // 移除可能存在的class属性，因为我们会在外层容器添加样式
+            cleanPrefix = cleanPrefix.replace(/class="[^"]*"/g, '');
+            cleanMiddle = cleanMiddle.replace(/class="[^"]*"/g, '');
+            cleanSuffix = cleanSuffix.replace(/class="[^"]*"/g, '');
+            // 返回带有onError处理的img标签
+            return `<img${cleanPrefix}src="${src}"${cleanMiddle}alt="${alt}"${cleanSuffix} style="max-width: 100%; height: auto; display: block; margin: 1rem auto;" onload="this.onerror=null;" onerror="this.style.display='none';">`;
+        } else {
+            // 本地图片保持原样
+            return `<img${prefix}src="${src}"${middle}alt="${alt}"${suffix} style="max-width: 100%; height: auto; display: block; margin: 1rem auto;">`;
+        }
+    });
     return html;
 }
 }),
