@@ -206,4 +206,34 @@ article {
   overflow-y: visible;
 }
 
+pre {
+  background-color: #f6f8fa;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  margin: 1rem 0;
+  padding: 1rem;
+  overflow: auto;
+  box-shadow: 0 1px 3px #0000001a;
+}
+
+code {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: .85em;
+}
+
+pre code {
+  box-shadow: none;
+  background-color: #0000;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+:not(pre) > code {
+  background-color: #1b1f230d;
+  border-radius: 3px;
+  padding: .2em .4em;
+  font-size: 85%;
+}
+
 /*# sourceMappingURL=app_globals_71f961d1.css.map*/
