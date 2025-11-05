@@ -204,7 +204,11 @@ function getAllTags() {
 }
 async function convertMarkdownToHtml(markdown) {
     const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$unified$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["unified"])().use(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$remark$2d$parse$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"]).use(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$remark$2d$rehype$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"]).use(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$rehype$2d$stringify$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"]).process(markdown);
-    return result.toString();
+    // 获取HTML内容
+    let html = result.toString();
+    // 为图片添加样式，限制最大宽度和高度
+    html = html.replace(/<img([^>]*?)src="([^"]*?)"([^>]*?)alt="([^"]*?)"([^>]*?)>/g, '<img$1src="$2"$3alt="$4"$5 style="max-width: 100%; height: auto; display: block; margin: 1rem auto;">');
+    return html;
 }
 }),
 "[project]/app/search/page.js [app-rsc] (ecmascript)", ((__turbopack_context__) => {
