@@ -9,7 +9,7 @@ async function HomeContent() {
 
   // 从文章内容中提取第一张图片作为缩略图
   const postsWithThumbnails = posts.map(post => {
-    let thumbnail = '/images/default-thumbnail.svg'; // 默认缩略图
+    let thumbnail = '/images/default-thumbnail.jpg'; // 默认缩略图
     
     // 尝试从文章内容中提取第一张图片
     if (post.content) {

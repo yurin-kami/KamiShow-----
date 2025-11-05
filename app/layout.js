@@ -60,7 +60,7 @@ export default function RootLayout({ children }) {
         </header>
         <main>{children}</main>
         <footer>
-          <p>© 2023 KAMISHOW!!!!</p>
+          <p>© 2025 KAMISHOW!!!!</p>
         </footer>
       </body>
     </html>
