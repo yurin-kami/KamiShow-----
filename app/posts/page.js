@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getAllPosts } from '../../lib/posts';
+import PostItemClient from '../../components/PostItemClient';
 
 export const metadata = {
   title: '所有文章 - KAMISHOW!!!!!',
@@ -49,36 +50,7 @@ export default async function PostsPage() {
       <h1>所有文章</h1>
       <ul>
         {postsWithThumbnails.map((post) => (
-          <li key={post.slug}>
-            <div className="content">
-              <Link href={`/posts/${post.slug}`}>
-                <h2>{post.title}</h2>
-              </Link>
-              <p>日期: {post.date}</p>
-              {post.excerpt && <p>{post.excerpt}</p>}
-              {post.tags && (
-                <div>
-                  标签: 
-                  {post.tags.map((tag) => (
-                    <span key={tag}>
-                      <Link href={`/tags/${tag}`}>{tag}</Link> 
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-            <img 
-              src={post.thumbnail} 
-              alt={`${post.title} 缩略图`} 
-              className="thumbnail"
-              onError={(e) => {
-                // 如果图片加载失败，显示默认图片
-                if (e.target.src !== window.location.origin + '/images/default-thumbnail.jpg') {
-                  e.target.src = '/images/default-thumbnail.jpg';
-                }
-              }}
-            />
-          </li>
+          <PostItemClient key={post.slug} post={post} />
         ))}
       </ul>
     </div>
