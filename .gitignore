@@ -53,6 +53,7 @@ dist/*
 .Trashes
 ehthumbs.db
 Thumbs.db
-.next/*/*
-.github\\/*
-.next\\dev/*
+
+# GitHub and Next.js directories
+.github/
+.next/
