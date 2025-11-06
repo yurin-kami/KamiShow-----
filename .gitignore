@@ -54,4 +54,5 @@ dist/*
 ehthumbs.db
 Thumbs.db
 .next/*/*
-.github/*
+.github\\/*
+.next\\dev/*
