@@ -1,15 +1,16 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { getAllPosts } from '../lib/posts';
+import AvatarHeader from '../components/AvatarHeader';
 
 export const metadata = {
-  title: 'KAMISHOW!!!!! - 你的博客首页',
-  description: '欢迎来到KAMISHOW!!!!!，这里是你分享和记录生活的地方。',
-  keywords: '博客, 生活记录, 分享',
+  title: 'KAMISHOW!!!!!',
+  description: '欢迎来到KAMISHOW!!!!!，',
+  keywords: '博客, 学习记录, 分享',
   authors: [{ name: 'KAMISHOW' }],
   openGraph: {
-    title: 'KAMISHOW!!!!! - 你的博客首页',
-    description: '欢迎来到KAMISHOW!!!!!，这里是你分享和记录生活的地方。',
+    title: 'KAMISHOW!!!!!',
+    description: '欢迎来到KAMISHOW!!!!!，',
     type: 'website',
     locale: 'zh_CN',
   },
@@ -56,9 +57,7 @@ async function HomeContent() {
 
   return (
     <div>
-      <h1>欢迎来到KAMISHOW!!!!!</h1>
-      <p>这是你的博客首页。</p>
-      
+      <AvatarHeader />
       <h2>最新文章</h2>
       <ul>
         {postsWithThumbnails.map((post) => (

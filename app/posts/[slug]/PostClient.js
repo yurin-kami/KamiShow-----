@@ -43,25 +43,26 @@ export default function PostClient({ post }) {
             ))}
           </div>
         )}
+        
+        {/* 大纲移到文章内容上方 */}
+        {post.headers && post.headers.length > 0 && (
+          <div className="toc">
+            <h3>目录</h3>
+            <ul>
+              {post.headers.map((header, index) => (
+                <li key={index} className={`toc-h${header.level}`}>
+                  <a href={`#${header.id}`}>{header.text}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        
         <div 
           ref={contentRef}
           dangerouslySetInnerHTML={{ __html: post.content }} 
         />
       </article>
-      
-      {/* 大纲 - 这里需要服务端预处理 */}
-      {post.headers && post.headers.length > 0 && (
-        <div className="toc">
-          <h3>目录</h3>
-          <ul>
-            {post.headers.map((header, index) => (
-              <li key={index} className={`toc-h${header.level}`}>
-                <a href={`#${header.id}`}>{header.text}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 }

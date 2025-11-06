@@ -96,6 +96,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$unified$2f$l
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$remark$2d$parse$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/remark-parse/lib/index.js [app-rsc] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$remark$2d$rehype$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/remark-rehype/lib/index.js [app-rsc] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$rehype$2d$stringify$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/rehype-stringify/lib/index.js [app-rsc] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$remark$2d$gfm$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/remark-gfm/lib/index.js [app-rsc] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$rehype$2d$highlight$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/rehype-highlight/lib/index.js [app-rsc] (ecmascript)");
+;
+;
 ;
 ;
 ;
@@ -198,7 +202,9 @@ function extractHeaders(markdown) {
     return headers;
 }
 async function convertMarkdownToHtml(markdown) {
-    const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$unified$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["unified"])().use(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$remark$2d$parse$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"]).use(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$remark$2d$rehype$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"]).use(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$rehype$2d$stringify$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"]).process(markdown);
+    const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$unified$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["unified"])().use(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$remark$2d$parse$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"]).use(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$remark$2d$gfm$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"]) // 添加GFM支持（包括表格、任务列表等）
+    .use(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$remark$2d$rehype$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"]).use(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$rehype$2d$highlight$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"]) // 添加代码高亮支持
+    .use(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$rehype$2d$stringify$2f$lib$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"]).process(markdown);
     // 获取HTML内容
     let html = result.toString();
     // 为标题添加id属性，用于大纲导航
@@ -215,7 +221,30 @@ async function convertMarkdownToHtml(markdown) {
         return `<h3 id="${id}">${content}</h3>`;
     });
     // 为图片添加样式，限制最大宽度和高度，并处理远程图片
+    html = html.replace(/<img([^>]*?)src="([^"]*?)"([^>]*?)alt="([^"]*?)"([^>]*?)title="(.*?)"([^>]*?)>/g, (match, prefix, src, middle, alt, title, suffix)=>{
+        // 如果是远程图片，使用Next.js Image组件
+        if (src.startsWith('http://') || src.startsWith('https://')) {
+            // 移除现有的width和height属性，因为我们会设置自己的样式
+            let cleanPrefix = prefix.replace(/width="[^"]*"/g, '').replace(/height="[^"]*"/g, '');
+            let cleanMiddle = middle.replace(/width="[^"]*"/g, '').replace(/height="[^"]*"/g, '');
+            let cleanSuffix = suffix.replace(/width="[^"]*"/g, '').replace(/height="[^"]*"/g, '');
+            // 移除可能存在的class属性，因为我们会在外层容器添加样式
+            cleanPrefix = cleanPrefix.replace(/class="[^"]*"/g, '');
+            cleanMiddle = cleanMiddle.replace(/class="[^"]*"/g, '');
+            cleanSuffix = cleanSuffix.replace(/class="[^"]*"/g, '');
+            // 返回带有onError处理的img标签
+            return `<img${cleanPrefix}src="${src}"${cleanMiddle}alt="${alt}" title="${title}"${cleanSuffix} style="max-width: 100%; height: auto; display: block; margin: 1rem auto;" onload="this.onerror=null;" onerror="this.style.display='none';">`;
+        } else {
+            // 本地图片保持原样
+            return `<img${prefix}src="${src}"${middle}alt="${alt}" title="${title}"${suffix} style="max-width: 100%; height: auto; display: block; margin: 1rem auto;">`;
+        }
+    });
+    // 修复没有title属性的图片标签
     html = html.replace(/<img([^>]*?)src="([^"]*?)"([^>]*?)alt="([^"]*?)"([^>]*?)>/g, (match, prefix, src, middle, alt, suffix)=>{
+        // 检查是否已经包含title属性
+        if (match.includes('title=')) {
+            return match; // 如果已经有title属性，则跳过
+        }
         // 如果是远程图片，使用Next.js Image组件
         if (src.startsWith('http://') || src.startsWith('https://')) {
             // 移除现有的width和height属性，因为我们会设置自己的样式
@@ -285,11 +314,34 @@ async function generateMetadata({ params }) {
     const resolvedParams = await params;
     const post = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$posts$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getPostBySlug"])(resolvedParams.slug, [
         'title',
-        'excerpt'
+        'excerpt',
+        'date',
+        'tags'
     ]);
     return {
         title: `${post.title} - KAMISHOW!!!!!`,
-        description: post.excerpt || post.title
+        description: post.excerpt || post.title,
+        keywords: post.tags ? [
+            ...post.tags,
+            '文章',
+            '博客'
+        ] : [
+            '文章',
+            '博客'
+        ],
+        authors: [
+            {
+                name: 'KAMISHOW'
+            }
+        ],
+        openGraph: {
+            title: post.title,
+            description: post.excerpt || post.title,
+            type: 'article',
+            publishedTime: post.date,
+            locale: 'zh_CN',
+            tags: post.tags
+        }
     };
 }
 // 骨架屏组件
@@ -309,7 +361,7 @@ function PostSkeleton() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/posts/[slug]/page.js",
-                lineNumber: 42,
+                lineNumber: 52,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -321,7 +373,7 @@ function PostSkeleton() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/posts/[slug]/page.js",
-                lineNumber: 43,
+                lineNumber: 53,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -333,7 +385,7 @@ function PostSkeleton() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/posts/[slug]/page.js",
-                lineNumber: 44,
+                lineNumber: 54,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -345,7 +397,7 @@ function PostSkeleton() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/posts/[slug]/page.js",
-                lineNumber: 45,
+                lineNumber: 55,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -357,7 +409,7 @@ function PostSkeleton() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/posts/[slug]/page.js",
-                lineNumber: 46,
+                lineNumber: 56,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -369,13 +421,13 @@ function PostSkeleton() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/posts/[slug]/page.js",
-                lineNumber: 47,
+                lineNumber: 57,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/posts/[slug]/page.js",
-        lineNumber: 41,
+        lineNumber: 51,
         columnNumber: 5
     }, this);
 }
@@ -383,19 +435,19 @@ function Post({ params }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["Suspense"], {
         fallback: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(PostSkeleton, {}, void 0, false, {
             fileName: "[project]/app/posts/[slug]/page.js",
-            lineNumber: 54,
+            lineNumber: 64,
             columnNumber: 25
         }, void 0),
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(PostContent, {
             params: params
         }, void 0, false, {
             fileName: "[project]/app/posts/[slug]/page.js",
-            lineNumber: 55,
+            lineNumber: 65,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/posts/[slug]/page.js",
-        lineNumber: 54,
+        lineNumber: 64,
         columnNumber: 5
     }, this);
 }
