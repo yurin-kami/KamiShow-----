@@ -27,11 +27,21 @@ async function PostContent({ params }) {
 export async function generateMetadata({ params }) {
   // 等待params Promise解析
   const resolvedParams = await params;
-  const post = getPostBySlug(resolvedParams.slug, ['title', 'excerpt']);
+  const post = getPostBySlug(resolvedParams.slug, ['title', 'excerpt', 'date', 'tags']);
   
   return {
     title: `${post.title} - KAMISHOW!!!!!`,
     description: post.excerpt || post.title,
+    keywords: post.tags ? [...post.tags, '文章', '博客'] : ['文章', '博客'],
+    authors: [{ name: 'KAMISHOW' }],
+    openGraph: {
+      title: post.title,
+      description: post.excerpt || post.title,
+      type: 'article',
+      publishedTime: post.date,
+      locale: 'zh_CN',
+      tags: post.tags,
+    },
   };
 }
 

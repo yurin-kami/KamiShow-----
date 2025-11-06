@@ -1,6 +1,19 @@
 import Link from 'next/link';
 import { getAllPosts } from '../../lib/posts';
 
+export const metadata = {
+  title: '所有文章 - KAMISHOW!!!!!',
+  description: '查看KAMISHOW!!!!!的所有文章，发现更多有趣的内容。',
+  keywords: '文章, 博客文章, 内容',
+  authors: [{ name: 'KAMISHOW' }],
+  openGraph: {
+    title: '所有文章 - KAMISHOW!!!!!',
+    description: '查看KAMISHOW!!!!!的所有文章，发现更多有趣的内容。',
+    type: 'website',
+    locale: 'zh_CN',
+  },
+};
+
 export default async function PostsPage() {
   const posts = getAllPosts(['title', 'date', 'slug', 'excerpt', 'tags', 'content']);
 

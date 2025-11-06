@@ -6,6 +6,7 @@
   "/posts/[slug]/page": "app/posts/[slug]/page.js",
   "/posts/page": "app/posts/page.js",
   "/search/page": "app/search/page.js",
+  "/sitemap.xml/route": "app/sitemap.xml/route.js",
   "/tags/[tag]/page": "app/tags/[tag]/page.js",
   "/tags/page": "app/tags/page.js"
 }

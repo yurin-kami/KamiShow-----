@@ -6,6 +6,7 @@
   "/posts/[slug]/page": "/posts/[slug]",
   "/posts/page": "/posts",
   "/search/page": "/search",
+  "/sitemap.xml/route": "/sitemap.xml",
   "/tags/[tag]/page": "/tags/[tag]",
   "/tags/page": "/tags"
 }

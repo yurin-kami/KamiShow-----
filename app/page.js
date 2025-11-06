@@ -2,6 +2,19 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { getAllPosts } from '../lib/posts';
 
+export const metadata = {
+  title: 'KAMISHOW!!!!! - 你的博客首页',
+  description: '欢迎来到KAMISHOW!!!!!，这里是你分享和记录生活的地方。',
+  keywords: '博客, 生活记录, 分享',
+  authors: [{ name: 'KAMISHOW' }],
+  openGraph: {
+    title: 'KAMISHOW!!!!! - 你的博客首页',
+    description: '欢迎来到KAMISHOW!!!!!，这里是你分享和记录生活的地方。',
+    type: 'website',
+    locale: 'zh_CN',
+  },
+};
+
 // 首页内容组件
 async function HomeContent() {
   // 获取所有文章数据

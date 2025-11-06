@@ -241,7 +241,9 @@ async function convertMarkdownToHtml(markdown) {
 
 __turbopack_context__.s([
     "default",
-    ()=>Home
+    ()=>Home,
+    "metadata",
+    ()=>metadata
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.js [app-rsc] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.react-server.js [app-rsc] (ecmascript)");
@@ -251,6 +253,22 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$posts$2e$js__$5b$app$
 ;
 ;
 ;
+const metadata = {
+    title: 'KAMISHOW!!!!! - 你的博客首页',
+    description: '欢迎来到KAMISHOW!!!!!，这里是你分享和记录生活的地方。',
+    keywords: '博客, 生活记录, 分享',
+    authors: [
+        {
+            name: 'KAMISHOW'
+        }
+    ],
+    openGraph: {
+        title: 'KAMISHOW!!!!! - 你的博客首页',
+        description: '欢迎来到KAMISHOW!!!!!，这里是你分享和记录生活的地方。',
+        type: 'website',
+        locale: 'zh_CN'
+    }
+};
 // 首页内容组件
 async function HomeContent() {
     // 获取所有文章数据
@@ -294,7 +312,7 @@ async function HomeContent() {
             post: post
         }, void 0, false, {
             fileName: "[project]/app/page.js",
-            lineNumber: 41,
+            lineNumber: 54,
             columnNumber: 12
         }, this);
     }
@@ -304,51 +322,51 @@ async function HomeContent() {
                 children: "欢迎来到KAMISHOW!!!!!"
             }, void 0, false, {
                 fileName: "[project]/app/page.js",
-                lineNumber: 46,
+                lineNumber: 59,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                 children: "这是你的博客首页。"
             }, void 0, false, {
                 fileName: "[project]/app/page.js",
-                lineNumber: 47,
+                lineNumber: 60,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                 children: "最新文章"
             }, void 0, false, {
                 fileName: "[project]/app/page.js",
-                lineNumber: 49,
+                lineNumber: 62,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
                 children: postsWithThumbnails.map((post)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["Suspense"], {
                         fallback: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(PostItemSkeleton, {}, void 0, false, {
                             fileName: "[project]/app/page.js",
-                            lineNumber: 52,
+                            lineNumber: 65,
                             columnNumber: 47
                         }, void 0),
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(PostItem, {
                             post: post
                         }, void 0, false, {
                             fileName: "[project]/app/page.js",
-                            lineNumber: 53,
+                            lineNumber: 66,
                             columnNumber: 13
                         }, this)
                     }, post.slug, false, {
                         fileName: "[project]/app/page.js",
-                        lineNumber: 52,
+                        lineNumber: 65,
                         columnNumber: 11
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/app/page.js",
-                lineNumber: 50,
+                lineNumber: 63,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/page.js",
-        lineNumber: 45,
+        lineNumber: 58,
         columnNumber: 5
     }, this);
 }
@@ -368,7 +386,7 @@ function PostItemSkeleton() {
                         }
                     }, void 0, false, {
                         fileName: "[project]/app/page.js",
-                        lineNumber: 66,
+                        lineNumber: 79,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -380,7 +398,7 @@ function PostItemSkeleton() {
                         }
                     }, void 0, false, {
                         fileName: "[project]/app/page.js",
-                        lineNumber: 67,
+                        lineNumber: 80,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -392,13 +410,13 @@ function PostItemSkeleton() {
                         }
                     }, void 0, false, {
                         fileName: "[project]/app/page.js",
-                        lineNumber: 68,
+                        lineNumber: 81,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/page.js",
-                lineNumber: 65,
+                lineNumber: 78,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -410,13 +428,13 @@ function PostItemSkeleton() {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/page.js",
-                lineNumber: 70,
+                lineNumber: 83,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/page.js",
-        lineNumber: 64,
+        lineNumber: 77,
         columnNumber: 5
     }, this);
 }
@@ -426,17 +444,17 @@ function Home() {
             children: "加载中..."
         }, void 0, false, {
             fileName: "[project]/app/page.js",
-            lineNumber: 77,
+            lineNumber: 90,
             columnNumber: 25
         }, void 0),
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(HomeContent, {}, void 0, false, {
             fileName: "[project]/app/page.js",
-            lineNumber: 78,
+            lineNumber: 91,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/page.js",
-        lineNumber: 77,
+        lineNumber: 90,
         columnNumber: 5
     }, this);
 }

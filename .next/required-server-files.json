@@ -81,6 +81,18 @@
         },
         {
           "protocol": "https",
+          "hostname": "i.pximg.net"
+        },
+        {
+          "protocol": "https",
+          "hostname": "cdn.donmai.us"
+        },
+        {
+          "protocol": "https",
+          "hostname": "*.githubusercontent.com"
+        },
+        {
+          "protocol": "https",
           "hostname": "**"
         }
       ],
