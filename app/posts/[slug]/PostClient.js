@@ -7,14 +7,24 @@ export default function PostClient({ post }) {
   const [loading, setLoading] = useState(true);
   const contentRef = useRef(null);
 
-  // 图片懒加载处理
+  // 图片懒加载处理和错误处理
   useEffect(() => {
     if (contentRef.current) {
-      // 为所有图片添加懒加载属性
+      // 为所有图片添加懒加载属性和错误处理
       const images = contentRef.current.querySelectorAll('img');
       images.forEach(img => {
         img.setAttribute('loading', 'lazy');
         img.setAttribute('decoding', 'async');
+        
+        // 添加onError处理，当图片加载失败时隐藏图片
+        img.onerror = function() {
+          this.style.display = 'none';
+        };
+        
+        // 添加onLoad处理，确保图片正确加载
+        img.onload = function() {
+          this.onerror = null;
+        };
       });
     }
     setLoading(false);
